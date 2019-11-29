@@ -32,7 +32,7 @@ class Datas():
             spamreader = csv.reader(csvfile, delimiter=',')
             for row in spamreader:
                 if len(row) == 2:
-                    if found_title is False and row[0].isnumeric() is False:
+                    if not found_title and not row[0].isnumeric():
                         self.xlabel, self.ylabel = row
                     elif row[0].isnumeric() and row[1].isnumeric():
                         self.data.append(list(map(int, row)))
