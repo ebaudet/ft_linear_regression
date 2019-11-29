@@ -27,18 +27,21 @@ class Datas():
         self.data = []
         self.xlabel = ''
         self.ylabel = ''
-        found_title = False
+        self.__read_csv_file__(file)
+        self.__get_min_max__()
+
+    def __read_csv_file__(self, file='data.csv'):
+        found_labels = False
         with open(file) as csvfile:
             spamreader = csv.reader(csvfile, delimiter=',')
             for row in spamreader:
                 if len(row) == 2:
-                    if not found_title and not row[0].isnumeric():
+                    if not found_labels and not row[0].isnumeric():
                         self.xlabel, self.ylabel = row
                     elif row[0].isnumeric() and row[1].isnumeric():
                         self.data.append(list(map(int, row)))
-                    found_title = True
+                    found_labels = True
         self.data.sort()
-        self.__get_min_max__()
 
     def __get_min_max__(self):
         global minval, maxval
