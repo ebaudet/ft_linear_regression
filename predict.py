@@ -3,6 +3,7 @@
 import csv
 import matplotlib.pyplot as plt
 import numpy as np
+from decimal import Decimal as D
 import fire
 
 C_RED = '\033[91m'
@@ -32,16 +33,23 @@ class Datas():
 
     def __read_csv_file__(self, file='data.csv'):
         found_labels = False
-        with open(file) as csvfile:
-            spamreader = csv.reader(csvfile, delimiter=',')
-            for row in spamreader:
-                if len(row) == 2:
-                    if not found_labels and not row[0].isnumeric():
-                        self.xlabel, self.ylabel = row
-                    elif row[0].isnumeric() and row[1].isnumeric():
-                        self.data.append(list(map(int, row)))
-                    found_labels = True
+        try:
+            with open(file) as csvfile:
+                spamreader = csv.reader(csvfile, delimiter=',')
+                for row in spamreader:
+                    if len(row) == 2:
+                        try:
+                            valx, valy = list(map(float, row))
+                            self.data.append(list((valx, valy)))
+                        except ValueError:
+                            if not found_labels:
+                                self.xlabel, self.ylabel = row
+                        found_labels = True
+        except Exception:
+            print(f'{C_RED}No data to train to.{C_END}')
+            quit()
         self.data.sort()
+        print('len:', len(self.data))
 
     def __get_min_max__(self):
         global minval, maxval
@@ -56,6 +64,14 @@ class Datas():
             plt.xlabel(self.xlabel)
             plt.ylabel(self.ylabel)
 
+    def error_value(self, t0, t1):
+        '''Calculate the error'''
+        error = 0
+        for x, y in self.data:
+            error += (t0 + (t1 * x)) - y
+        error /= len(self.data)
+        return error
+
     def debug(self):
         print(f'{C_DIM}Data:{C_END}', repr(self.data))
 
@@ -66,44 +82,65 @@ class Datas():
 class Prediction(object):
     '''Prediction'''
 
-    def __init__(self, teta0=0, teta1=0):
-        self.teta0, self.teta1 = teta0, teta1
+    def __init__(self, t0=0, t1=0):
+        self.t0, self.t1 = t0, t1
 
     def predict(self, mileage: int) -> int:
         print(self.data)
-        return self.teta0 + (self.teta1 * mileage)
+        return self.t0 + (self.t1 * mileage)
 
     def plot(self):
         x = np.linspace(minval[0], maxval[0], 100)
-        y = self.teta1 * x + self.teta0
-        plt.plot(x, y, '-r', label=f'y={self.teta1}x+{self.teta0}')
+        y = self.t1 * x + self.t0
+        plt.plot(x, y, '-r', label=f'y={self.t1}x+{self.t0}')
         plt.legend(loc='upper left')
+
+    def predict_price(self, data, error_calculated):
+        while True:
+            try:
+                input_val = input("Enter mileage number, or 'graph' to"
+                                  " visualize or 'q' to quit\n> ")
+                if input_val in ('q', 'Q', 'quit'):
+                    return
+                if input_val in ('g', 'G', 'graph'):
+                    graph(data, self, error_calculated)
+                    continue
+                x = float(input_val)
+                print(f"For {C_UND}{x}km{C_END}, estimate price is "
+                      f"{C_PURPLE}${round(self.t0+self.t1*x, 2)}{C_END}")
+            except ValueError:
+                print('Oops! That as no a valid number. Try again...')
+            except EOFError:
+                print()
+                return()
 
     def debug(self):
         print(f'''\
-teta0[{C_GREEN}{self.teta0}{C_END}], teta1[{C_GREEN}{self.teta1}{C_END}]\
+*** θ0 [{C_GREEN}{self.t0}{C_END}], θ1 [{C_GREEN}{self.t1}{C_END}] ***\
 ''')
 
 
-def lauchInFire(t0: float, t1: float):
-    data = Datas()
-    data.debug()
+def graph(data, pred, error_calculated):
     data.plot()
-    pred = Prediction(t0, t1)
     pred.plot()
+    plt.title(f'Error : {error_calculated}')
     plt.grid()
     plt.show()
+
+
+def lauchInFire(t0: float, t1: float, file=None):
+    data = Datas(file)
+    data.debug()
+    pred = Prediction(t0, t1)
+    pred.debug()
+    error_calculated = data.error_value(pred.t0, pred.t1)
+    print(f'*** error calculated: {C_GREEN}{error_calculated}{C_END} ***')
+    pred.predict_price(data, error_calculated)
 
 
 def test():
-    data = Datas()
-    data.debug()
-    data.plot()
-    pred = Prediction(9500, -.03)
-    pred.debug()
-    pred.plot()
-    plt.grid()
-    plt.show()
+    lauchInFire(9500, -.03, 'data.csv')
+    lauchInFire(0, 2, 'test.csv')
 
 
 if __name__ == '__main__':
