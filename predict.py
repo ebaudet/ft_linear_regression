@@ -35,8 +35,8 @@ class Datas():
         found_labels = False
         try:
             with open(file) as csvfile:
-                spamreader = csv.reader(csvfile, delimiter=',')
-                for row in spamreader:
+                csv_reader = csv.reader(csvfile, delimiter=',')
+                for row in csv_reader:
                     if len(row) == 2:
                         try:
                             valx, valy = list(map(float, row))
