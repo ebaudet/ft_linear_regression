@@ -35,8 +35,7 @@ class Datas():
         found_labels = False
         try:
             with open(file) as csvfile:
-                csv_reader = csv.reader(csvfile, delimiter=',')
-                for row in csv_reader:
+                for row in csv.reader(csvfile, delimiter=','):
                     if len(row) == 2:
                         try:
                             valx, valy = list(map(float, row))
@@ -49,7 +48,7 @@ class Datas():
             print(f'{C_RED}No data to train to.{C_END}')
             quit()
         self.data.sort()
-        print('len:', len(self.data))
+
 
     def __get_min_max__(self):
         global minval, maxval
@@ -86,7 +85,6 @@ class Prediction(object):
         self.t0, self.t1 = t0, t1
 
     def predict(self, mileage: int) -> int:
-        print(self.data)
         return self.t0 + (self.t1 * mileage)
 
     def plot(self):
@@ -130,6 +128,7 @@ def graph(data, pred, error_calculated):
 
 def lauchInFire(t0: float, t1: float, file=None):
     data = Datas(file)
+    print('len:', len(data.data))
     data.debug()
     pred = Prediction(t0, t1)
     pred.debug()
