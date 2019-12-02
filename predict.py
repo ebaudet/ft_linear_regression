@@ -49,7 +49,6 @@ class Datas():
             quit()
         self.data.sort()
 
-
     def __get_min_max__(self):
         global minval, maxval
         valx, valy = zip(*self.data)
