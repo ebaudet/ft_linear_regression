@@ -2,31 +2,31 @@
 # coding: utf-8
 import matplotlib.pyplot as plt
 import predict as p
+import argparse
 
 
 class GradientDescent:
-    def __init__(self, data, learning_rate=1e-2, iterations=10, t0=0, t1=0,
-                 scale=1000):
+    def __init__(self, data, learning_rate=1e-2, iterations=10, t0=0, t1=0):
         self.learning_rate = learning_rate
         self.iterations = iterations
         self.t0 = t0
         self.t1 = t1
         self.D = data
-        self.scale=scale
-        self.sdata = self.scale_data(self.D.data, scale)
+        self.ndata = self.normalize_data(self.D.data)
 
-    def scale_data(self, data, scale):
-        scaled_data = []
-        for x, y in data:
-            scaled_data.append((x / scale, y / scale))
-        return scaled_data
+    def normalize_data(self, data):
+        _x, _y = list(zip(*data))
+        self.normalize = max(_x)
+        normalize_data = [[x / self.normalize for x in _x],
+                          [y / self.normalize for y in _y]]
+        return normalize_data
 
     def pred(self, x):
         return self.t0 + self.t1 * x
 
     def gradient(self):
         error_list = []
-        x, y = list(zip(*self.sdata))
+        x, y = self.ndata
         rng = range(len(self.D.data))
         m = float(len(self.D.data))
         for _i in range(self.iterations):
@@ -35,27 +35,59 @@ class GradientDescent:
             self.t0 -= self.learning_rate * d0
             self.t1 -= self.learning_rate * d1
             error_list.append(self.D.error_value(self.t0, self.t1))
+        self.t0 *= self.normalize
         with open('thetas.csv', 'w') as f:
-            print(f'{self.t0 * self.scale},{self.t1}', file=f)
+            f.write('{0},{1}\n'.format(self.t0, self.t1))
         return error_list
+
+    def result(self):
+        print('*** θ0 [{green}{}{end}], θ1 [{green}{}{end}] ***'
+              .format(self.t0, self.t1, green=p.C_GREEN, end=p.C_END))
+
+
+def argParseTrain():
+    parser = argparse.ArgumentParser(description="Train the model to found the"
+                                     " best θ0 and θ1 to fit f(x) = θ0 + θ1x")
+    parser.add_argument("-g", "--graph",
+                        help="Show the graph", action="store_true")
+    parser.add_argument("-f", "--file", help="Data file (default:data.csv)",
+                        default="data.csv", type=argparse.FileType('r'))
+    parser.add_argument("-l", "--learning_rate", help="Learning Rate "
+                        "(default:0.1)", default=0.1, type=float)
+    parser.add_argument("-i", "--iterations", help="How many iterations "
+                        "(default:5000)", default=5000, type=int)
+    parser.add_argument("-t0", help="Starting θ0 (default:0)",
+                        default=0, type=float)
+    parser.add_argument("-t1", help="Starting θ1 (default:0)",
+                        default=0, type=float)
+    parser.add_argument("-v", "--verbose", help="Verbose mode",
+                        action="store_true")
+    args = parser.parse_args()
+    return args
 
 
 def main():
-    scale = 1000
-    data = p.Datas('data.csv')
-    print('len:', len(data.data))
-    GD = GradientDescent(data, iterations=300000,
-                         learning_rate=0.0001, t0=0, t1=0, scale=scale)
-    print(GD.sdata)
+    args = argParseTrain()
+    print('Training for : {und}{}{end}'
+          .format(args.file.name, und=p.C_UND, end=p.C_END))
+    data = p.Datas(args.file)
+    if args.verbose:
+        print('len datas:', len(data.data))
+        data.debug()
+    GD = GradientDescent(data, iterations=args.iterations,
+                         learning_rate=args.learning_rate, t0=args.t0,
+                         t1=args.t1)
     error_list = GD.gradient()
-    print(f't0 : {GD.t0}, t1 : {GD.t1}')
-    plt.subplot(1, 2, 1)
-    plt.plot(range(len(error_list)), error_list)
-    plt.subplot(1, 2, 2)
-    data.plot()
-    pred = p.Prediction(GD.t0 * scale, GD.t1)
-    pred.plot()
-    plt.show()
+    GD.result()
+    # print('t0 : {}, t1 : {}'.format(GD.t0, GD.t1))
+    if args.graph:
+        plt.subplot(1, 2, 1)
+        plt.plot(range(len(error_list)), error_list)
+        plt.subplot(1, 2, 2)
+        data.plot()
+        pred = p.Prediction(GD.t0, GD.t1)
+        pred.plot()
+        plt.show()
 
 
 if __name__ == '__main__':
