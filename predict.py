@@ -81,7 +81,19 @@ class Prediction(object):
     '''Prediction'''
 
     def __init__(self, t0=0, t1=0):
-        self.t0, self.t1 = t0, t1
+        self.__read_from_file__(t0, t1)
+
+    def __read_from_file__(self, t0, t1):
+        try:
+            with open('thetas.csv') as thetas_file:
+                for row in csv.reader(thetas_file, delimiter=','):
+                    if len(row) == 2:
+                        _t0, _t1 = list(map(float, row))
+                        self.t0, self.t1 = _t0, _t1
+                    break
+        except Exception:
+            self.t0, self.t1 = t0, t1
+
 
     def predict(self, mileage: int) -> int:
         return self.t0 + (self.t1 * mileage)

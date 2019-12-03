@@ -12,6 +12,7 @@ class GradientDescent:
         self.t0 = t0
         self.t1 = t1
         self.D = data
+        self.scale=scale
         self.sdata = self.scale_data(self.D.data, scale)
 
     def scale_data(self, data, scale):
@@ -34,6 +35,8 @@ class GradientDescent:
             self.t0 -= self.learning_rate * d0
             self.t1 -= self.learning_rate * d1
             error_list.append(self.D.error_value(self.t0, self.t1))
+        with open('thetas.csv', 'w') as f:
+            print(f'{self.t0 * self.scale},{self.t1}', file=f)
         return error_list
 
 
