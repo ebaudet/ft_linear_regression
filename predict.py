@@ -44,6 +44,8 @@ class Datas():
                             if not found_labels:
                                 self.xlabel, self.ylabel = row
                         found_labels = True
+            if len(self.data) == 0:
+                raise Exception
         except Exception:
             print('{red}No data to train to.{end}'
                   .format(red=C_RED, end=C_END))

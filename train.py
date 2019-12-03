@@ -36,8 +36,12 @@ class GradientDescent:
             self.t1 -= self.learning_rate * d1
             error_list.append(self.D.error_value(self.t0, self.t1))
         self.t0 *= self.normalize
-        with open('thetas.csv', 'w') as f:
-            f.write('{0},{1}\n'.format(self.t0, self.t1))
+        try:
+            with open('thetas.csv', 'w') as f:
+                f.write('{0},{1}\n'.format(self.t0, self.t1))
+        except Exception:
+            print('{red}/!\\ Cannot save thetas value in {}.{end}'
+                  .format(repr('thetas.csv'), red=p.C_RED, end=p.C_END))
         return error_list
 
     def result(self):
