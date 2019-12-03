@@ -84,6 +84,7 @@ class Prediction(object):
     '''Prediction'''
 
     def __init__(self, t0=None, t1=None):
+        self.t0, self.t1 = 0, 0
         self.__read_from_file__(t0, t1)
 
     def __read_from_file__(self, t0, t1):
@@ -98,7 +99,7 @@ class Prediction(object):
                         self.t0, self.t1 = _t0, _t1
                     break
         except Exception:
-            self.t0, self.t1 = t0, t1
+            pass
         if t0 is not None:
             self.t0 = t0
         if t1 is not None:
@@ -176,7 +177,10 @@ def argParsePredict():
 
 
 if __name__ == '__main__':
-    args = argParsePredict()
-    print('Predict from : {und}{}{end}'
-          .format(args.file.name, und=C_UND, end=C_END))
-    lauchInFire(args, args.t0, args.t1, args.file)
+    try:
+        args = argParsePredict()
+        print('Predict from : {und}{}{end}'
+              .format(args.file.name, und=C_UND, end=C_END))
+        lauchInFire(args, args.t0, args.t1, args.file)
+    except KeyboardInterrupt:
+        pass
