@@ -63,6 +63,10 @@ It will be using the following formulas:
 tmpθ_0 = learningRate ∗ \frac{1}{m}\sum_{i=0}^{m-1}(estimatePrice(mileage[i]) − price[i])
 ```
 
+<img src="https://latex.codecogs.com/gif.latex?tmpθ_0 = learningRate ∗ \frac{1}{m}\sum_{i=0}^{m-1}(estimatePrice(mileage[i]) − price[i]) " />
+- <img src="https://latex.codecogs.com/gif.latex?s=\text { sensor reading }  " />
+- <img src="https://latex.codecogs.com/gif.latex?P(s | O_t )=\text { Probability of a sensor reading value when sleep onset is observed at a time bin } t " />
+
 ```mma
 tmpθ_1 =learningRate ∗ \frac{1}{m}\sum_{i=0}^{m-1}(estimatePrice(mileage[i]) − price[i]) ∗ mileage[i]
 ```
