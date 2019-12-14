@@ -16,6 +16,13 @@ Install the required libs in the virtual env.
 
 ```bash
 sh init.sh
+source venv/bin/activate
+```
+
+If you want to leave current env.
+
+```bash
+deactivate
 ```
 
 ## Play-it
