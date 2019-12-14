@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 # coding: utf-8
 import matplotlib.pyplot as plt
-import predict as p
 import argparse
+
+from color import *
+import predict as p
+import data as d
 
 
 class GradientDescent:
@@ -41,12 +44,12 @@ class GradientDescent:
                 f.write('{0},{1}\n'.format(self.t0, self.t1))
         except Exception:
             print('{red}/!\\ Cannot save thetas value in {}.{end}'
-                  .format(repr('thetas.csv'), red=p.C_RED, end=p.C_END))
+                  .format(repr('thetas.csv'), red=C_RED, end=C_END))
         return error_list
 
     def result(self):
         print('*** θ0 [{green}{}{end}], θ1 [{green}{}{end}] ***'
-              .format(self.t0, self.t1, green=p.C_GREEN, end=p.C_END))
+              .format(self.t0, self.t1, green=C_GREEN, end=C_END))
 
 
 def argParseTrain():
@@ -73,8 +76,8 @@ def argParseTrain():
 def main():
     args = argParseTrain()
     print('Training for : {und}{}{end}'
-          .format(args.file.name, und=p.C_UND, end=p.C_END))
-    data = p.Datas(args.file)
+          .format(args.file.name, und=C_UND, end=C_END))
+    data = d.Datas(args.file)
     if args.verbose:
         print('len datas:', len(data.data))
         data.debug()

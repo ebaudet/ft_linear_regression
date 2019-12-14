@@ -1,0 +1,5 @@
+#!/usr/bin/env python3
+# coding: utf-8
+
+minval = (0, 0)
+maxval = (0, 0)
