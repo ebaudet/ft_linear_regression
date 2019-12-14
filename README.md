@@ -8,13 +8,13 @@
 
 Clone the project
 
-```bash
+```shell
 git clone https://github.com/ebaudet/ft_linear_regression.git
 ```
 
 Install the required libs in the virtual env.
 
-```bash
+```sh
 sh init.sh
 ```
 
@@ -59,11 +59,11 @@ optional arguments:
 Once the linear regression has completed, it will save the variables theta0 and theta1 for use in the first program.<br>
 It will be using the following formulas:
 
-```tex
+```mathematica
 tmpθ_0 = learningRate ∗ \frac{1}{m}\sum_{i=0}^{m-1}(estimatePrice(mileage[i]) − price[i])
 ```
 
-```latex
+```mma
 tmpθ_1 =learningRate ∗ \frac{1}{m}\sum_{i=0}^{m-1}(estimatePrice(mileage[i]) − price[i]) ∗ mileage[i]
 ```
 
