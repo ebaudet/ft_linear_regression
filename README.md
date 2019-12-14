@@ -8,13 +8,13 @@
 
 Clone the project
 
-```shell
+```bash
 git clone https://github.com/ebaudet/ft_linear_regression.git
 ```
 
 Install the required libs in the virtual env.
 
-```sh
+```bash
 sh init.sh
 ```
 
@@ -24,16 +24,18 @@ sh init.sh
 
 `predict.py` will be used to predict the price of a car for a given mileage. When you launch the program, it should prompt you for a mileage, and then give you back the estimated price for that mileage. The program will use the following hypothesis to predict the price :
 
-![estimatePrice(mileage) = θ_0 + (θ_1 ∗ mileage)](https://latex.codecogs.com/gif.latex?estimatePrice(mileage)%20=%20Thetas_0%20+%20(Thetas_1%20%E2%88%97%20mileage))
+![https://latex.codecogs.com/gif.latex?estimatePrice(mileage) = Thetas_0 + (Thetas_1 * mileage)](https://latex.codecogs.com/gif.latex?estimatePrice(mileage)%20=%20Thetas_0%20+%20(Thetas_1%20*%20mileage))
 
 Before the run of the training program, theta0 and theta1 will be set to 0.
 
 Run it with :
+
 ```bash
 ./predict
 ```
 
 To get usage :
+
 ```bash
 ./predict -h
 ```
@@ -62,11 +64,13 @@ It will be using the following formulas:
 ![https://latex.codecogs.com/gif.latex?tmpThetas_1 =learningRate * \frac{1}{m}\sum_{i=0}^{m-1}(estimatePrice(mileage[i]) − price[i]) * mileage[i]](https://latex.codecogs.com/gif.latex?tmpThetas_1%20=learningRate%20*%20\frac{1}{m}\sum_{i=0}^{m-1}(estimatePrice(mileage[i])%20%E2%88%92%20price[i])%20*%20mileage[i])
 
 Run it with :
+
 ```bash
 ./train
 ```
 
 To get usage :
+
 ```bash
 ./train -h
 ```
