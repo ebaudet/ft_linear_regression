@@ -24,10 +24,7 @@ sh init.sh
 
 `predict.py` will be used to predict the price of a car for a given mileage. When you launch the program, it should prompt you for a mileage, and then give you back the estimated price for that mileage. The program will use the following hypothesis to predict the price :
 
-![estimatePrice(mileage) = θ_0 + (θ_1 ∗ mileage)](https://latex.codecogs.com/gif.latex?estimatePrice(mileage)%20=%20%CE%B8_0%20+%20(%CE%B8_1%20%E2%88%97%20mileage))
-```math
-https://latex.codecogs.com/gif.latex?estimatePrice(mileage) = θ_0 + (θ_1 ∗ mileage)
-```
+![estimatePrice(mileage) = θ_0 + (θ_1 ∗ mileage)](https://latex.codecogs.com/gif.latex?estimatePrice(mileage)%20=%20Thetas_0%20+%20(Thetas_1%20%E2%88%97%20mileage))
 
 Before the run of the training program, theta0 and theta1 will be set to 0.
 
@@ -60,19 +57,9 @@ optional arguments:
 Once the linear regression has completed, it will save the variables theta0 and theta1 for use in the first program.<br>
 It will be using the following formulas:
 
-```mathematica
-tmpθ_0 = learningRate ∗ \frac{1}{m}\sum_{i=0}^{m-1}(estimatePrice(mileage[i]) − price[i])
-```
+![https://latex.codecogs.com/gif.latex?tmpThetas_0 = learningRate * \frac{1}{m}\sum_{i=0}^{m-1}(estimatePrice(mileage[i]) − price[i])](https://latex.codecogs.com/gif.latex?tmpThetas_0%20=%20learningRate%20*%20\frac{1}{m}\sum_{i=0}^{m-1}(estimatePrice(mileage[i])%20%E2%88%92%20price[i]))
 
-<img src="https://latex.codecogs.com/gif.latex?tmpθ_0 = learningRate ∗ \frac{1}{m}\sum_{i=0}^{m-1}(estimatePrice(mileage[i]) − price[i]) " />
-- <img src="https://latex.codecogs.com/gif.latex?s=\text { sensor reading }  " />
-- <img src="https://latex.codecogs.com/gif.latex?P(s | O_t )=\text { Probability of a sensor reading value when sleep onset is observed at a time bin } t " />
-
-![equation](http://latex.codecogs.com/gif.latex?O_t%3D%5Ctext%20%7B%20Onset%20event%20at%20time%20bin%20%7D%20t)
-
-```mma
-https://latex.codecogs.com/gif.latex?tmpθ_1 =learningRate ∗ \frac{1}{m}\sum_{i=0}^{m-1}(estimatePrice(mileage[i]) − price[i]) ∗ mileage[i]
-```
+![https://latex.codecogs.com/gif.latex?tmpThetas_1 =learningRate * \frac{1}{m}\sum_{i=0}^{m-1}(estimatePrice(mileage[i]) − price[i]) * mileage[i]](https://latex.codecogs.com/gif.latex?tmpThetas_1%20=learningRate%20*%20\frac{1}{m}\sum_{i=0}^{m-1}(estimatePrice(mileage[i])%20%E2%88%92%20price[i])%20*%20mileage[i])
 
 Run it with :
 ```bash
