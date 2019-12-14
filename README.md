@@ -59,11 +59,11 @@ optional arguments:
 Once the linear regression has completed, it will save the variables theta0 and theta1 for use in the first program.<br>
 It will be using the following formulas:
 
-```math
+```tex
 tmpθ_0 = learningRate ∗ \frac{1}{m}\sum_{i=0}^{m-1}(estimatePrice(mileage[i]) − price[i])
 ```
 
-```math
+```latex
 tmpθ_1 =learningRate ∗ \frac{1}{m}\sum_{i=0}^{m-1}(estimatePrice(mileage[i]) − price[i]) ∗ mileage[i]
 ```
 
