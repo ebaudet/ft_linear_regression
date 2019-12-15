@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # coding: utf-8
 import csv
 import matplotlib.pyplot as plt
@@ -16,6 +15,7 @@ class Datas():
         self.__get_min_max__()
 
     def __read_csv_file__(self, file=None):
+        '''Extract datas from csv file.'''
         found_labels = False
         try:
             with file as csvfile:
@@ -37,12 +37,13 @@ class Datas():
         self.data.sort()
 
     def __get_min_max__(self):
-        # global g.minval, g.maxval
+        '''Define the min/max value of the datas.'''
         valx, valy = zip(*self.data)
         g.minval = min(valx), min(valy)
         g.maxval = max(valx), max(valy)
 
     def plot(self, with_label=True):
+        '''Print on the graph the datas points.'''
         valx, valy = zip(*self.data)
         plt.plot(valx, valy, '+')
         if with_label:
@@ -50,7 +51,7 @@ class Datas():
             plt.ylabel(self.ylabel)
 
     def error_value(self, t0, t1):
-        '''Calculate the error'''
+        '''Return the error between the datas and the curve f(x)=t0+x*t1.'''
         error = 0
         for x, y in self.data:
             error += abs((t0 + (t1 * x)) - y)
@@ -58,7 +59,8 @@ class Datas():
         return error
 
     def debug(self):
-        print('{}Data:{}'.format(C_DIM, C_END), repr(self.data))
+        '''Print the datas.'''
+        print('{}Data:{}'.format(C_DIM, C_END), repr(self))
 
     def __repr__(self):
         return repr(self.data)

@@ -18,6 +18,7 @@ class GradientDescent:
         self.ndata = self.normalize_data(self.D.data)
 
     def normalize_data(self, data):
+        '''Normalize the data to have them betwen 0 and 1.'''
         _x, _y = list(zip(*data))
         self.normalize = max(_x)
         normalize_data = [[x / self.normalize for x in _x],
@@ -25,9 +26,11 @@ class GradientDescent:
         return normalize_data
 
     def pred(self, x):
+        '''Return the prediction with the current θ0 and θ1 for a given x.'''
         return self.t0 + self.t1 * x
 
     def gradient(self):
+        '''Gradient descent algorithm.'''
         error_list = []
         x, y = self.ndata
         rng = range(len(self.D.data))
@@ -48,11 +51,13 @@ class GradientDescent:
         return error_list
 
     def result(self):
+        '''Print the theta0 and theta1 found.'''
         print('*** θ0 [{green}{}{end}], θ1 [{green}{}{end}] ***'
               .format(self.t0, self.t1, green=C_GREEN, end=C_END))
 
 
 def argParseTrain():
+    '''Parsing given arguments.'''
     parser = argparse.ArgumentParser(description="Train the model to found the"
                                      " best θ0 and θ1 to fit f(x) = θ0 + θ1x")
     parser.add_argument("-g", "--graph",
@@ -86,7 +91,6 @@ def main():
                          t1=args.t1)
     error_list = GD.gradient()
     GD.result()
-    # print('t0 : {}, t1 : {}'.format(GD.t0, GD.t1))
     if args.graph:
         plt.subplot(1, 2, 1)
         plt.plot(range(len(error_list)), error_list)

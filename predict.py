@@ -18,6 +18,7 @@ class Prediction(object):
         self.__read_from_file__(t0, t1)
 
     def __read_from_file__(self, t0, t1):
+        '''Define t0 and t1 according to trained data in thetas.csv.'''
         if t0 is not None and t1 is not None:
             self.t0, self.t1 = t0, t1
             return
@@ -36,20 +37,24 @@ class Prediction(object):
             self.t1 = t1
 
     def predict(self, mileage):
+        '''Return the predicted price for the given mileage
+
+        (price = θ0 + θ1 * mileage).
+        '''
         return self.t0 + (self.t1 * mileage)
 
-    ''' Print on the graph the predicted functions '''
     def plot(self):
+        '''Print on the graph the predicted curve.'''
         x = np.linspace(g.minval[0], g.maxval[0], 100)
         y = self.predict(x)
         plt.plot(x, y, '-r', label='y={}+{}x'.format(self.t0, self.t1))
         plt.legend(loc='upper left')
 
-    ''' Prompt the preduction '''
     def prompt(self, data, error_calculated):
+        '''Prompt the preduction.'''
         while True:
             try:
-                input_val = input("Enter mileage number, or 'graph' to"
+                input_val = input("Enter mileage value, or 'graph' to"
                                   " visualize or 'q' to quit\n> ")
                 if input_val in ('q', 'Q', 'quit'):
                     return
@@ -65,6 +70,7 @@ class Prediction(object):
                 return()
 
     def predict_price(self, km):
+        '''Print the predicted price for the given km.'''
         print("For {und}{}km{end}, estimate price is "
               "{purple}${}{end}"
               .format(km, round(self.predict(km), 2), und=C_UND,
@@ -96,8 +102,8 @@ def main(args, t0=None, t1=None, file=None):
     pred.prompt(data, error_calculated)
 
 
-''' Parsing argument '''
 def argParsePredict():
+    '''Parsing given arguments.'''
     parser = argparse.ArgumentParser(description="Predict the price for a "
                                      "given mileage")
     parser.add_argument("-f", "--file", help="Data file (default:data.csv)",
@@ -119,4 +125,5 @@ if __name__ == '__main__':
               .format(args.file.name, und=C_UND, end=C_END))
         main(args, args.t0, args.t1, args.file)
     except KeyboardInterrupt:
+        print('\nSee you later')
         pass
