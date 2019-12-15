@@ -80,11 +80,17 @@ def argParseTrain():
 
 def main():
     args = argParseTrain()
-    print('Training for : {und}{}{end}'
+    print("Training for : {und}{}{end}"
           .format(args.file.name, und=C_UND, end=C_END))
+    if args.verbose:
+        print("{d}learning_rate:{e} {}, {d}iterations:{e} {}, "
+              "{d}starting t0:{e} {}, {d}starting t1:{e} {}"
+              .format(args.learning_rate, args.iterations, args.t0, args.t1,
+                      d=C_DIM, e=C_END))
     data = d.Datas(args.file)
     if args.verbose:
-        print('len datas:', len(data.data))
+        print("{d}len datas:{e} {}"
+              .format(len(data.data), d=C_DIM, e=C_END))
         data.debug()
     GD = GradientDescent(data, iterations=args.iterations,
                          learning_rate=args.learning_rate, t0=args.t0,

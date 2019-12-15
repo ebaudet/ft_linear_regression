@@ -6,7 +6,7 @@ import numpy as np
 import argparse
 
 from color import *
-import globals as g
+import globvar as g
 import data as d
 
 

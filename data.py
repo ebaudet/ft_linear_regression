@@ -3,7 +3,7 @@ import csv
 import matplotlib.pyplot as plt
 
 from color import *
-import globals as g
+import globvar as g
 
 
 class Datas():
